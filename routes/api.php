@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 // API Version 1
 Route::prefix('v1')->group(function () {
     
+    Route::get('profile', [AuthController::class, 'profile']);
     // Public routes
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);

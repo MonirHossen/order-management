@@ -97,11 +97,13 @@ class AuthController extends Controller
      */
     public function profile(): JsonResponse
     {
-        $user = $this->authService->getAuthenticatedUser();
+        
+        // $user = $this->authService->getAuthenticatedUser();
 
         return response()->json([
             'success' => true,
-            'data' => $user->load('roles', 'permissions'),
+            'data' => 'dfdfd',
+            // 'data' => $user->load('roles', 'permissions'),
         ]);
     }
 }
