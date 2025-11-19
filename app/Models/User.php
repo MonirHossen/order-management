@@ -67,10 +67,10 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Get products if user is vendor
      */
-    // public function products(): HasMany
-    // {
-    //     return $this->hasMany(Product::class, 'vendor_id');
-    // }
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'vendor_id');
+    }
 
     /**
      * Check if user is admin
