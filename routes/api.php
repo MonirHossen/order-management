@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\API\V1\AuthController;
+use App\Http\Controllers\API\V1\OrderController;
+use App\Http\Controllers\API\V1\ProductController;
 use Illuminate\Support\Facades\Route;
 
 // API Version 1
@@ -43,14 +44,38 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}/inventory', [ProductController::class, 'updateInventory']);
         });
 
+        // ============================================
+        // ORDER ROUTES
+        // ============================================
+        Route::prefix('orders')->group(function () {
+            // All authenticated users
+            Route::get('/', [OrderController::class, 'index']);
+            Route::get('/{id}', [OrderController::class, 'show']);
+            Route::post('/', [OrderController::class, 'store']);
+            Route::get('/{id}/status-history', [OrderController::class, 'statusHistory']);
+            Route::get('/{id}/invoice', [OrderController::class, 'downloadInvoice']);
+            
+            // Cancel order (customer/admin)
+            Route::post('/{id}/cancel', [OrderController::class, 'cancel'])->middleware('role:customer,admin');
+            
+            // Update status (admin/vendor)
+            Route::put('/{id}/status', [OrderController::class, 'updateStatus'])->middleware('role:admin,vendor');
+            
+            // Statistics (admin only)
+            Route::get('/statistics/overview', [OrderController::class, 'statistics'])->middleware('role:admin');
+        });
+
         // Category routes
         // Route::prefix('categories')->group(function () {
         //     Route::get('/', [CategoryController::class, 'index']);
+        //     Route::get('/tree', [CategoryController::class, 'tree']);
+        //     Route::get('/stats', [CategoryController::class, 'stats'])->middleware('role:admin');
         //     Route::get('/{id}', [CategoryController::class, 'show']);
             
         //     Route::middleware(['role:admin'])->group(function () {
         //         Route::post('/', [CategoryController::class, 'store']);
         //         Route::put('/{id}', [CategoryController::class, 'update']);
+        //         Route::put('/{id}/move', [CategoryController::class, 'move']);
         //         Route::delete('/{id}', [CategoryController::class, 'destroy']);
         //     });
         // });
