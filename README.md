@@ -329,6 +329,24 @@ CACHE_DRIVER=redis
 
 ---
 
+# Low Stock Alerts System
+
+## 🚨 Automatic Detection
+The system automatically:
+
+- ✅ Detects when stock falls below threshold
+- ✅ Creates a `LowStockAlert` record
+- ✅ Dispatches a queued job
+- ✅ Sends email notifications to vendor/admin
+
+## ⚙️ Configuration
+Set threshold per product:
+
+```json
+{
+  "low_stock_threshold": 10
+}
+
 ## 🐛 Troubleshooting
 
 ### Issue: JWT Token Invalid
